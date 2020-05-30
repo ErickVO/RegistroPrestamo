@@ -1,0 +1,146 @@
+﻿@page "/Registro"
+
+@using Models
+@using BLL
+
+@inject IToastService toast
+
+
+<EditForm Model="Dato" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro</h3>
+        </div>
+        <div class="card-body">
+            <form>
+
+
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Id:</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Dato.Id" class="form-control col-4" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <InputText @bind-Value="Dato.Nombre" class="form-control" />
+                    <ValidationMessage For="@(() => Dato.Nombre)" />
+                </div>
+
+
+                <div class="form-group">
+                    <label>Telefono:</label>
+                    <InputText @bind-Value="Dato.Telefono" class="form-control" />
+                    <ValidationMessage For="@(() => Dato.Telefono)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Cedula:</label>
+                    <InputText @bind-Value="Dato.Cedula" class="form-control" />
+                    <ValidationMessage For="@(() => Dato.Cedula)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Direccion:</label>
+                    <InputText @bind-Value="Dato.Direccion" class="form-control" />
+                    <ValidationMessage For="@(() => Dato.Direccion)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <InputDate @bind-Value="Dato.FechaNacimiento" class="form-control" />
+                    <ValidationMessage For="@(() => Dato.FechaNacimiento)" />
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <p />
+
+    <div class-group>
+        <button type="button" @onclick="Nuevo">Nuevo</button>
+        <button type="submit" @onclick="Guardar">Guardar</button>
+        <button type="button" @onclick="Eliminar">Eliminar</button>
+    </div>
+
+</EditForm>
+
+@code {
+    Persona Dato = new Persona();
+
+    [Parameter]
+    public int EstudianteId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Dato = new Datos();
+    }
+
+    private void Guardar()
+    {
+        bool guardo;
+
+        Dato.Id = 1;
+        guardo = DatosBLL.Guardar(Dato);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible guardar");
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = DatosBLL.Eliminar(Dato.Id);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+    private void Buscar()
+    {
+        if (Dato.Id > 0)
+        {
+            var encontrado = DatosBLL.Buscar(Dato.Id);
+
+            if (encontrado != null)
+                this.Dato = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
+
+}
