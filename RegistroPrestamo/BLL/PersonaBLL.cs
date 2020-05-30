@@ -142,7 +142,7 @@ namespace RegistroPrestamo.BLL
         }
 
 
-        public static bool Existe(int id)
+        private static bool Existe(int id)
         {
             Contexto db = new Contexto();
             bool encontrado = false;

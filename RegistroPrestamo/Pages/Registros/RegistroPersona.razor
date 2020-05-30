@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Fecha:</label>
+                    <label>Fecha de Nacimiento:</label>
                     <InputDate @bind-Value="Persona.FechaNacimiento" class="form-control" />
                     <ValidationMessage For="@(() => Persona.FechaNacimiento)" />
                 </div>
@@ -81,11 +81,7 @@
 
     <p />
 
-    <div class-group>
-        <button type="button" @onclick="Nuevo">Nuevo</button>
-        <button type="submit" @onclick="Guardar">Guardar</button>
-        <button type="button" @onclick="Eliminar">Eliminar</button>
-    </div>
+ 
 
 </EditForm>
 

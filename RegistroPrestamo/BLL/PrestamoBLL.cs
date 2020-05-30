@@ -4,6 +4,7 @@ using RegistroPrestamo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RegistroPrestamo.BLL
@@ -25,6 +26,8 @@ namespace RegistroPrestamo.BLL
         }
 
 
+      
+
         private static bool Insertar(Prestamos prestamos)
         {
             Contexto db = new Contexto();
@@ -32,6 +35,8 @@ namespace RegistroPrestamo.BLL
 
             try
             {
+                prestamos.Balance = prestamos.Monto;
+                GuardarBalance(prestamos);
                 db.Prestamos.Add(prestamos);
                 paso = (db.SaveChanges() > 0);
             }
@@ -54,8 +59,12 @@ namespace RegistroPrestamo.BLL
 
             try
             {
+
+                prestamos.Balance = prestamos.Monto;
+                ModificarBalance(prestamos);
                 db.Entry(prestamos).State = EntityState.Modified;
                 paso = (db.SaveChanges() > 0);
+
             }
             catch
             {
@@ -77,10 +86,14 @@ namespace RegistroPrestamo.BLL
             try
             {
                 var prestamos = db.Prestamos.Find(id);
+                
 
                 if (prestamos != null)
                 {
+                    EliminarBalance(prestamos);
+
                     db.Prestamos.Remove(prestamos);
+
                     paso = (db.SaveChanges() > 0);
                 }
             }
@@ -117,8 +130,63 @@ namespace RegistroPrestamo.BLL
             return prestamos;
         }
 
+        public static List<Prestamos> GetList(Expression<Func<Prestamos, bool>> prestamos)
+        {
+            List<Prestamos> Lista = new List<Prestamos>();
+            Contexto db = new Contexto();
 
-        public static bool Existe(int id)
+            try
+            {
+                Lista = db.Prestamos.Where(prestamos).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return Lista;
+        }
+
+        public static void GuardarBalance(Prestamos prestamo)
+        {
+            Personas personas = new Personas();
+
+            personas = PersonaBLL.Buscar(prestamo.PersonaId);
+            personas.Balance += prestamo.Balance;
+
+            PersonaBLL.Guardar(personas);
+        }
+
+
+        public static void ModificarBalance(Prestamos prestamo)
+        {
+            Personas persona = new Personas();
+            Prestamos auxPrestamos = new Prestamos();
+
+            auxPrestamos = PrestamoBLL.Buscar(prestamo.PrestamoId);
+            persona = PersonaBLL.Buscar(prestamo.PersonaId);
+            persona.Balance -= auxPrestamos.Balance;
+            persona.Balance += prestamo.Balance;
+
+            PersonaBLL.Guardar(persona);
+        }
+
+        public static void EliminarBalance(Prestamos prestamo)
+        {
+            Personas persona = new Personas();
+
+            persona = PersonaBLL.Buscar(prestamo.PersonaId);
+            persona.Balance -= prestamo.Balance;
+            PersonaBLL.Guardar(persona);
+        }
+
+
+        private static bool Existe(int id)
         {
             Contexto db = new Contexto();
             bool encontrado = false;
