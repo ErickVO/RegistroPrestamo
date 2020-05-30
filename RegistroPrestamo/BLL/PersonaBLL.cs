@@ -4,13 +4,14 @@ using RegistroPrestamo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RegistroPrestamo.BLL
 {
-    public class DatosBLL
+    public class PersonaBLL
     {
-        public static bool Guardar(Persona personas)
+        public static bool Guardar(Personas personas)
         {
             if (!Existe(personas.Id))
             {
@@ -25,14 +26,14 @@ namespace RegistroPrestamo.BLL
         } 
 
 
-        private static bool Insertar(Persona datos)
+        private static bool Insertar(Personas persona)
         {
             Contexto db = new Contexto();
             bool paso = false;
 
             try
             {
-                db.Persona.Add(datos);
+                db.Personas.Add(persona);
                 paso = (db.SaveChanges() > 0);
             }
             catch
@@ -47,14 +48,14 @@ namespace RegistroPrestamo.BLL
             return paso;
         }
 
-        private static bool Modificar (Persona datos)
+        private static bool Modificar (Personas persona)
         {
             Contexto db = new Contexto();
             bool paso = false;
 
             try
             {
-                db.Entry(datos).State = EntityState.Modified;
+                db.Entry(persona).State = EntityState.Modified;
                 paso = (db.SaveChanges() > 0);
             }
             catch
@@ -76,11 +77,11 @@ namespace RegistroPrestamo.BLL
 
             try
             {
-                var datos = db.Persona.Find(id);
+                var persona = db.Personas.Find(id);
 
-                if(datos != null)
+                if(persona != null)
                 {
-                    db.Persona.Remove(datos);
+                    db.Personas.Remove(persona);
                     paso = (db.SaveChanges() > 0);
                 }
             }
@@ -96,14 +97,14 @@ namespace RegistroPrestamo.BLL
             return paso;
         }
 
-        public static Persona Buscar(int id)
+        public static Personas Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Persona datos;
+            Personas persona;
 
             try
             {
-                datos = contexto.Persona.Find(id);
+                persona = contexto.Personas.Find(id);
             }
             catch (Exception)
             {
@@ -114,7 +115,30 @@ namespace RegistroPrestamo.BLL
                 contexto.Dispose();
             }
 
-            return datos;
+            return persona;
+        }
+
+
+        public static List<Personas> GetList(Expression<Func<Personas, bool>> persona)
+        {
+            List<Personas> Lista = new List<Personas>();
+            Contexto db = new Contexto();
+
+            try
+            {
+                Lista = db.Personas.Where(persona).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return Lista;
         }
 
 
@@ -125,7 +149,7 @@ namespace RegistroPrestamo.BLL
 
             try
             {
-                encontrado = db.Persona.Any(d => d.Id == id);
+                encontrado = db.Personas.Any(d => d.Id == id);
             }
             catch
             {

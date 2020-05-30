@@ -9,11 +9,12 @@ namespace RegistroPrestamo.DAL
 {
     public class Contexto : DbContext
     {
-        public DbSet<Persona> Persona { get; set; }
+        public DbSet<Personas> Personas { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data source = Registro.db");
+            optionsBuilder.UseSqlite(@"Data source = \Prestamos_db\PrestamosDB.db");
         }
     }
 }

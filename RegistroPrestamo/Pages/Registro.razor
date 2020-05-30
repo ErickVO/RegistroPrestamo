@@ -6,7 +6,7 @@
 @inject IToastService toast
 
 
-<EditForm Model="Dato" OnValidSubmit="Guardar">
+<EditForm Model="Persona" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
     <div class="card">
@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label>Id:</label>
                             <div class="input-group">
-                                <InputNumber @bind-Value="Dato.Id" class="form-control col-4" />
+                                <InputNumber @bind-Value="Persona.Id" class="form-control col-4" />
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                 </div>
@@ -33,33 +33,39 @@
 
                 <div class="form-group">
                     <label>Nombre:</label>
-                    <InputText @bind-Value="Dato.Nombre" class="form-control" />
-                    <ValidationMessage For="@(() => Dato.Nombre)" />
+                    <InputText @bind-Value="Persona.Nombre" class="form-control" />
+                    <ValidationMessage For="@(() => Persona.Nombre)" />
                 </div>
 
 
                 <div class="form-group">
                     <label>Telefono:</label>
-                    <InputText @bind-Value="Dato.Telefono" class="form-control" />
-                    <ValidationMessage For="@(() => Dato.Telefono)" />
+                    <InputText @bind-Value="Persona.Telefono" class="form-control" />
+                    <ValidationMessage For="@(() => Persona.Telefono)" />
                 </div>
 
                 <div class="form-group">
                     <label>Cedula:</label>
-                    <InputText @bind-Value="Dato.Cedula" class="form-control" />
-                    <ValidationMessage For="@(() => Dato.Cedula)" />
+                    <InputText @bind-Value="Persona.Cedula" class="form-control" />
+                    <ValidationMessage For="@(() => Persona.Cedula)" />
                 </div>
 
                 <div class="form-group">
                     <label>Direccion:</label>
-                    <InputText @bind-Value="Dato.Direccion" class="form-control" />
-                    <ValidationMessage For="@(() => Dato.Direccion)" />
+                    <InputText @bind-Value="Persona.Direccion" class="form-control" />
+                    <ValidationMessage For="@(() => Persona.Direccion)" />
                 </div>
 
                 <div class="form-group">
                     <label>Fecha:</label>
-                    <InputDate @bind-Value="Dato.FechaNacimiento" class="form-control" />
-                    <ValidationMessage For="@(() => Dato.FechaNacimiento)" />
+                    <InputDate @bind-Value="Persona.FechaNacimiento" class="form-control" />
+                    <ValidationMessage For="@(() => Persona.FechaNacimiento)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Balance:</label>
+                    <InputNumber @bind-Value="Persona.Balance" class="form-control" ReadOnly="True"/>
+                    <ValidationMessage For="@(() => Persona.Balance)" />
                 </div>
 
             </form>
@@ -84,7 +90,7 @@
 </EditForm>
 
 @code {
-    Persona Dato = new Persona();
+    Personas Persona = new Personas();
 
     [Parameter]
     public int EstudianteId { get; set; }
@@ -96,15 +102,15 @@
 
     private void Nuevo()
     {
-        Dato = new Datos();
+        Persona = new Personas();
     }
 
     private void Guardar()
     {
         bool guardo;
 
-        Dato.Id = 1;
-        guardo = DatosBLL.Guardar(Dato);
+        Persona.Id = 1;
+        guardo = PersonaBLL.Guardar(Persona);
 
         if (guardo)
         {
@@ -119,7 +125,7 @@
     {
         bool elimino;
 
-        elimino = DatosBLL.Eliminar(Dato.Id);
+        elimino = PersonaBLL.Eliminar(Persona.Id);
 
         if (elimino)
         {
@@ -132,12 +138,12 @@
 
     private void Buscar()
     {
-        if (Dato.Id > 0)
+        if (Persona.Id > 0)
         {
-            var encontrado = DatosBLL.Buscar(Dato.Id);
+            var encontrado = PersonaBLL.Buscar(Persona.Id);
 
             if (encontrado != null)
-                this.Dato = encontrado;
+                this.Persona = encontrado;
             else
                 toast.ShowWarning("No encontrado");
         }
