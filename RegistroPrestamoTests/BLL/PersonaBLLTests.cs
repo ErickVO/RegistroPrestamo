@@ -32,8 +32,10 @@ namespace RegistroPrestamo.BLL.Tests
         [TestMethod()]
         public void EliminarTest()
         {
-            bool paso;
-            paso = PersonaBLL.Eliminar(1);
+            bool paso = false;
+
+           paso = PersonaBLL.Eliminar(1);
+
             Assert.AreEqual(paso, true);
         }
 
