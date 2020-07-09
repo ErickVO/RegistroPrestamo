@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegistroPrestamo", "RegistroPrestamo\RegistroPrestamo.csproj", "{AD074166-134F-474A-B847-0A774CE3E305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistroPrestamoTests", "RegistroPrestamoTests\RegistroPrestamoTests.csproj", "{63784006-ED59-4C3D-B4E5-9F08B6D517B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegistroPrestamoTests", "RegistroPrestamoTests\RegistroPrestamoTests.csproj", "{63784006-ED59-4C3D-B4E5-9F08B6D517B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrestamosAPI", "PrestamosAPI\PrestamosAPI.csproj", "{B3D1C3F4-EB2D-4BE9-81FB-670CE9D748B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{63784006-ED59-4C3D-B4E5-9F08B6D517B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63784006-ED59-4C3D-B4E5-9F08B6D517B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63784006-ED59-4C3D-B4E5-9F08B6D517B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3D1C3F4-EB2D-4BE9-81FB-670CE9D748B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3D1C3F4-EB2D-4BE9-81FB-670CE9D748B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3D1C3F4-EB2D-4BE9-81FB-670CE9D748B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3D1C3F4-EB2D-4BE9-81FB-670CE9D748B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

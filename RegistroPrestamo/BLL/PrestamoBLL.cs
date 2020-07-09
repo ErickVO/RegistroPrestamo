@@ -130,6 +130,26 @@ namespace RegistroPrestamo.BLL
             return prestamos;
         }
 
+        public static List<Prestamos> GetPrestamos()
+        {
+            List<Prestamos> lista = new List<Prestamos>();
+            Contexto db = new Contexto();
+            try
+            {
+                lista = db.Prestamos.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return lista;
+        }
+
+
         public static List<Prestamos> GetList(Expression<Func<Prestamos, bool>> prestamos)
         {
             List<Prestamos> Lista = new List<Prestamos>();
